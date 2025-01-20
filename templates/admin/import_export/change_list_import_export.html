@@ -1,0 +1,30 @@
+{% extends "admin/change_list.html" %}
+{% load import_export_tags %}
+
+{% block content %}
+    {% block object-tools %}
+        <div class="object-tools">
+            {% block object-tools-items %}
+                {% if has_add_permission %}
+                    <ul class="addlink">
+                        <li><a href="{% url opts|admin_urlname:'add' %}" class="addlink">
+                            {% trans 'Add' %} {{ opts.verbose_name }}</a></li>
+                    </ul>
+                {% endif %}
+                {% if has_import_permission %}
+                    <ul class="importlink">
+                        <li><a href="{% url opts|admin_urlname:'process_import' %}" class="importlink">
+                            {% trans 'Import' %} {{ opts.verbose_name_plural }}</a></li>
+                    </ul>
+                {% endif %}
+                {% if has_export_permission %}
+                    <ul class="exportlink">
+                        <li><a href="{% url opts|admin_urlname:'export' %}" class="exportlink">
+                            {% trans 'Export' %} {{ opts.verbose_name_plural }}</a></li>
+                    </ul>
+                {% endif %}
+            {% endblock %}
+        </div>
+    {% endblock %}
+    {{ block.super }}
+{% endblock %}

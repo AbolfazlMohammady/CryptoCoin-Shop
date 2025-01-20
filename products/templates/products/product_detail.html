@@ -1,0 +1,75 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Product Detail Header Start -->
+    <div class="container-fluid hero-header bg-light py-5 mb-5">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="display-5 mb-3 animated slideInDown">{{ product.name }}</h2>
+                    <p class="animated slideInDown">{{ product.short_description }}</p>
+                </div>
+                <div class="col-lg-6 animated fadeIn">
+                    <img class="img-fluid animated pulse infinite" style="animation-duration: 3s; max-width: 80%; width: 300px; height: auto;" src="{{ product.image.url }}" alt="{{ product.name }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Detail Header End -->
+
+    <!-- Product Detail Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <div class="product-detail-img">
+                        <img class="img-fluid w-100 rounded shadow-lg" style="max-width: 500px; height: auto;" src="{{ product.image.url }}" alt="{{ product.name }}">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="product-detail-content">
+                        <h2 class="mb-4">{{ product.name }}</h2>
+                        <p class="text-primary fs-5 mb-4">{{ product.price }} تومان</p>
+                        <p>{{ product.description }}</p>
+                        <p><strong>وزن:</strong> {{ product.weight }} گرم</p>
+                        <p><strong>ابعاد:</strong> {{ product.dimensions }}</p>
+                        <p><strong>ضخامت:</strong> {{ product.thickness }} میلیمتر</p>
+                        <p><strong>ابعاد شناسنامه:</strong> {{ product.certificate_dimensions }}</p>
+                        <p><strong>نوع شناسنامه:</strong> {{ product.certificate_type }}</p>
+                        <form method="post" action="{% url 'create_order' product_id=product.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">تعداد</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+                            </div>
+                            <button type="submit" class="btn btn-primary py-3 px-4 mt-4">افزودن به سبد خرید</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Detail End -->
+
+    <!-- Related Products Start -->
+    <div class="container-xxl py-5 bg-light"></div>
+        <div class="container">
+            <div class="row g-4">
+                {% for related_product in related_products %}
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="product-item bg-white p-4 rounded shadow-sm">
+                        <img class="img-fluid mb-3 rounded" style="max-width: 200px; height: auto;" src="{{ related_product.image.url }}" alt="{{ related_product.name }}">
+                        <h5 class="mb-2">{{ related_product.name }}</h5>
+                        <p class="text-primary fs-5">{{ related_product.price }} تومان</p>
+                        <a href="{% url 'product_detail' related_product.id %}" class="btn btn-primary py-2 px-4">مشاهده جزئیات</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Related Products End -->
+
+{% endblock %}

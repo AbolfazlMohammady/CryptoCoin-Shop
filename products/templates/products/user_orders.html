@@ -1,0 +1,92 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <h1>Your Orders</h1>
+    {% if orders %}
+        <canvas id="ordersChart" width="400" height="200"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var ctx = document.getElementById('ordersChart').getContext('2d');
+            var ordersChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{% for order in orders %}'{{ order.created_at|date:"Y-m-d" }}',{% endfor %}],
+                    datasets: [{
+                        label: 'Total Price',
+                        data: [{% for order in orders %}{{ order.total_price }},{% endfor %}],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'rgb(255, 99, 132)'
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                color: '#911',
+                                font: {
+                                    family: 'Times',
+                                    size: 20,
+                                    style: 'normal',
+                                    lineHeight: 1.2
+                                },
+                                padding: {top: 20, left: 0, right: 0, bottom: 0}
+                            },
+                            ticks: {
+                                color: 'rgba(75, 192, 192, 1)'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Total Price',
+                                color: '#191',
+                                font: {
+                                    family: 'Times',
+                                    size: 20,
+                                    style: 'normal',
+                                    lineHeight: 1.2
+                                },
+                                padding: {top: 30, left: 0, right: 0, bottom: 0}
+                            },
+                            ticks: {
+                                color: 'rgba(75, 192, 192, 1)'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    {% else %}
+        <p>You have no orders.</p>
+    {% endif %}
+{% endblock %}

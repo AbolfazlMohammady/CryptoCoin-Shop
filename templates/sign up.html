@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه ثبت‌نام و ورود</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('gold.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container" id="formContainer">
+            <h2 id="formTitle">ثبت‌نام در سایت</h2>
+            <form id="authForm" action="#" method="post">
+                <input type="text" id="username" name="username" placeholder="نام کاربری" required><br>
+                <input type="email" id="email" name="email" placeholder="ایمیل" required><br>
+                <input type="password" id="password" name="password" placeholder="گذرواژه" required><br>
+                <input type="submit" value="ثبت‌نام">
+            </form>
+            <div class="form-footer">
+                <p id="toggleText">قبلا ثبت‌نام کرده‌اید؟ <a href="#" onclick="toggleForm()">وارد شوید</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            var formTitle = document.getElementById('formTitle');
+            var authForm = document.getElementById('authForm');
+            var toggleText = document.getElementById('toggleText');
+            var emailField = document.getElementById('email');
+            
+            // تغییر عنوان فرم
+            if (formTitle.innerHTML === "ثبت‌نام در سایت") {
+                formTitle.innerHTML = "ورود به سایت";
+                // مخفی کردن فیلد ایمیل برای ورود
+                emailField.style.display = "none";
+                // تغییر متن لینک پایین فرم
+                toggleText.innerHTML = 'حساب کاربری ندارید؟ <a href="#" onclick="toggleForm()">ثبت‌نام کنید</a>';
+                // تغییر دکمه ارسال به "ورود"
+                authForm.querySelector('input[type="submit"]').value = "ورود";
+            } else {
+                formTitle.innerHTML = "ثبت‌نام در سایت";
+                // نمایش دوباره فیلد ایمیل برای ثبت‌نام
+                emailField.style.display = "inline-block";
+                // تغییر متن لینک پایین فرم
+                toggleText.innerHTML = 'قبلا ثبت‌نام کرده‌اید؟ <a href="#" onclick="toggleForm()">وارد شوید</a>';
+                // تغییر دکمه ارسال به "ثبت‌نام"
+                authForm.querySelector('input[type="submit"]').value = "ثبت‌نام";
+            }
+        }
+    </script>
+
+</body>
+</html>
